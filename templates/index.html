@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Detector</title>
 </head>
 <body>
     <h1>Emotion Detector</h1>
     <p>Enter text to analyze emotions:</p>
     <input type="text" id="textToAnalyze" size="60" placeholder="Enter text here...">
-    <button onclick="analyzeEmotion()">Analyze</button>
-    <p id="result"></p>
+    <button type="button" onclick="analyzeEmotion()">Analyze</button>
+    <br><br>
+    <div id="result"></div>
     <script>
         function analyzeEmotion() {
-            const text = document.getElementById('textToAnalyze').value;
+            var text = document.getElementById('textToAnalyze').value;
+            if (!text) {
+                document.getElementById('result').innerText = 'Invalid text! Please try again.';
+                return;
+            }
             fetch('/emotionDetector?textToAnalyze=' + encodeURIComponent(text))
-                .then(response => response.text())
-                .then(data => {
+                .then(function(response) { return response.text(); })
+                .then(function(data) {
                     document.getElementById('result').innerText = data;
                 });
         }
